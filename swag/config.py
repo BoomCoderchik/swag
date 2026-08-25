@@ -8,6 +8,7 @@ class Settings(BaseSettings):
 
     bot_token: str = ""
     channel_id: str = ""
+    github_token: str = ""
     gemini_api_key: str = ""
     gemini_model: str = "gemini-flash-latest"
     poll_interval_min: int = 30

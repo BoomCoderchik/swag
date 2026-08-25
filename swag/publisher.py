@@ -4,17 +4,26 @@ MAX_CAPTION = 1024
 
 
 def build_caption(
-    title: str, description: str, metrics: str, url: str, tags: list[str]
+    title: str,
+    description: str,
+    metrics: str,
+    url: str,
+    tags: list[str],
+    link_text: str = "Читать",
 ) -> str:
     safe_title = html.escape(title.strip())
     safe_url = html.escape(url.strip(), quote=True)
-    link_line = f'\n\n🔗 <a href="{safe_url}">Читать</a>'
+    link_line = f'\n\n🔗 <a href="{safe_url}">{html.escape(link_text)}</a>'
     metrics_line = f"\n\n{metrics}" if metrics else ""
     hashtags = " ".join("#" + t.replace("-", "_") for t in tags)
     tags_line = f"\n\n{hashtags}" if hashtags else ""
     overhead = (
-        len(safe_title) + len("<b></b>") + 2
-        + len(link_line) + len(metrics_line) + len(tags_line)
+        len(safe_title)
+        + len("<b></b>")
+        + 2
+        + len(link_line)
+        + len(metrics_line)
+        + len(tags_line)
     )
     budget = max(MAX_CAPTION - overhead, 0)
     desc = html.escape(description.strip())
@@ -37,9 +46,15 @@ class Publisher:
             self._bot = Bot(bot_token)
 
     async def publish(
-        self, title: str, description: str, metrics: str, url: str, tags: list[str]
+        self,
+        title: str,
+        description: str,
+        metrics: str,
+        url: str,
+        tags: list[str],
+        link_text: str = "Читать",
     ) -> None:
-        caption = build_caption(title, description, metrics, url, tags)
+        caption = build_caption(title, description, metrics, url, tags, link_text)
         if self._dry_run:
             print(f"[DRY RUN] {url}\n{caption}\n{'-' * 60}")
             return

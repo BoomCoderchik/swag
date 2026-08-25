@@ -1,3 +1,13 @@
+github:
+  topics:
+    - ai
+    - llm
+    - ai-agents
+    - mcp
+  days: 7
+  min_stars: 15
+  max_results: 15
+
 rss:
   # Официальные блоги AI-лабораторий
   - name: openai

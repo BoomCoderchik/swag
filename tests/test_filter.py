@@ -1,10 +1,26 @@
+import asyncio
+
+import httpx
+
+from swag.config import Settings
 from swag.filter import has_free_signal_in_title
 from swag.llm import parse_verdict
 from swag.models import Item
 
 
-def _item(title: str) -> Item:
-    return Item(source="rss", title=title, url="https://example.com/1")
+def _item(title: str, kind: str = "news") -> Item:
+    return Item(source="rss", title=title, url="https://example.com/1", kind=kind)
+
+
+def test_github_items_pass_without_llm_key():
+    async def run() -> bool:
+        from swag.pipeline import _enrich
+
+        settings = Settings(gemini_api_key="", _env_file=None)
+        async with httpx.AsyncClient() as client:
+            return await _enrich(_item("owner/repo", kind="github"), settings, client)
+
+    assert asyncio.run(run()) is True
 
 
 def test_free_signal_in_title():

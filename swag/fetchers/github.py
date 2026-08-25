@@ -39,9 +39,11 @@ async def fetch_github(
             }
             data = await _search(client, params)
             for repo in data.get("items", []):
+                created = datetime.fromisoformat(repo["created_at"].replace("Z", "+00:00"))
                 items.append(
                     Item(
                         source="github",
+                        kind="github",
                         title=repo["full_name"],
                         url=repo["html_url"],
                         description=repo.get("description") or "",
@@ -51,6 +53,7 @@ async def fetch_github(
                             f" · {repo.get('language') or '—'}"
                         ),
                         tags=repo.get("topics", [])[:4],
+                        published_ts=created.timestamp(),
                     )
                 )
             await asyncio.sleep(2)

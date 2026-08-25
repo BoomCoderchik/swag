@@ -7,7 +7,7 @@ from swag.models import Item
 
 logger = logging.getLogger(__name__)
 
-_PROMPT = (
+_NEWS_PROMPT = (
     "Новость рассматривается для Telegram-канала о халяве в мире ИИ (на русском языке).\n"
     "Сделай три вещи:\n"
     "1. Определи, сообщает ли новость именно о БЕСПЛАТНОМ: free tier или бесплатный доступ "
@@ -20,6 +20,24 @@ _PROMPT = (
     "простым языком, без воды и без вступлений. Если relevant=false — ru_title и "
     "ru_summary пустые строки.\n\n"
     "Заголовок: {title}\nОписание: {description}\n\n"
+    "Ответь только JSON без пояснений:\n"
+    '{{"relevant": true/false, "score": 0-10, "ru_title": "...", "ru_summary": "..."}}'
+)
+
+_GITHUB_PROMPT = (
+    "GitHub-инструмент рассматривается для Telegram-канала про ИИ и вайбкодинг "
+    "(на русском языке).\n"
+    "Сделай три вещи:\n"
+    "1. Определи, полезен ли инструмент для работы с нейросетями или вайбкодинга: "
+    "AI-агенты, CLI-инструменты, LLM-библиотеки, MCP-серверы, автоматизация с ИИ, "
+    "локальные модели. Обычные библиотеки без ИИ-темы, туториалы, списки ссылок — "
+    "not relevant.\n"
+    "2. Поставь оценку полезности 0-10.\n"
+    "3. Если relevant=true, подготовь русскую версию: заголовок (имя репо оставь как есть, "
+    "можно добавить короткое пояснение) и описание в 1-2 коротких предложениях простым "
+    "языком — что делает и чем полезен. Если relevant=false — ru_title и ru_summary "
+    "пустые строки.\n\n"
+    "Репозиторий: {title}\nОписание: {description}\n\n"
     "Ответь только JSON без пояснений:\n"
     '{{"relevant": true/false, "score": 0-10, "ru_title": "...", "ru_summary": "..."}}'
 )
@@ -46,12 +64,13 @@ async def analyze(
     client: httpx.AsyncClient, api_key: str, model: str, item: Item
 ) -> tuple[bool, int, str, str] | None:
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+    template = _GITHUB_PROMPT if item.kind == "github" else _NEWS_PROMPT
     payload = {
         "contents": [
             {
                 "parts": [
                     {
-                        "text": _PROMPT.format(
+                        "text": template.format(
                             title=item.title, description=item.description[:800]
                         )
                     }
