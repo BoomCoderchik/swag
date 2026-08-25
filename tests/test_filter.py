@@ -13,13 +13,21 @@ def test_free_signal_in_title():
     assert not has_free_signal_in_title(_item("New benchmarks for local LLM quants"))
 
 
-def test_parse_verdict_clean_json():
-    assert parse_verdict('{"relevant": true, "score": 8}') == (True, 8)
+def test_parse_verdict_full_json():
+    verdict = parse_verdict(
+        '{"relevant": true, "score": 8, "ru_title": "Gemini стал бесплатным",'
+        ' "ru_summary": "Google открыла доступ. Ограничение по времени."}'
+    )
+    assert verdict == (True, 8, "Gemini стал бесплатным", "Google открыла доступ. Ограничение по времени.")
+
+
+def test_parse_verdict_minimal_json():
+    assert parse_verdict('{"relevant": false, "score": 2}') == (False, 2, "", "")
 
 
 def test_parse_verdict_with_prose_and_fence():
     text = 'Вот вердикт:\n```json\n{"relevant": false, "score": 2}\n```'
-    assert parse_verdict(text) == (False, 2)
+    assert parse_verdict(text) == (False, 2, "", "")
 
 
 def test_parse_verdict_garbage():

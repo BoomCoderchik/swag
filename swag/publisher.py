@@ -8,7 +8,7 @@ def build_caption(
 ) -> str:
     safe_title = html.escape(title.strip())
     safe_url = html.escape(url.strip(), quote=True)
-    link_line = f'\n\n🔗 <a href="{safe_url}">Открыть</a>'
+    link_line = f'\n\n🔗 <a href="{safe_url}">Читать</a>'
     metrics_line = f"\n\n{metrics}" if metrics else ""
     hashtags = " ".join("#" + t.replace("-", "_") for t in tags)
     tags_line = f"\n\n{hashtags}" if hashtags else ""
