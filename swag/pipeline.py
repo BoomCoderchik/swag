@@ -77,7 +77,7 @@ async def run_cycle(
                 break
             if not item.title or db.is_published(item.url):
                 continue
-            if item.kind != "github" and not is_fresh(item.published_ts, settings.fresh_hours):
+            if not is_fresh(item.published_ts, settings.fresh_hours):
                 continue
             if not await _enrich(item, settings, client):
                 continue

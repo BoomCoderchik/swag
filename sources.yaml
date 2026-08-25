@@ -4,7 +4,7 @@ github:
     - llm
     - ai-agents
     - mcp
-  days: 7
+  days: 3
   min_stars: 15
   max_results: 15
 
