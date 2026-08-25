@@ -1,15 +1,30 @@
-github:
-  topics:
-    - ai
-    - llm
-    - free-tier
-    - open-source
-  days: 7
-  min_stars: 15
-  max_results: 15
-
 rss:
-  - name: hn_ai_deals
-    url: https://hnrss.org/newest?q=AI+free+credits&points=5
-  - name: verge_ai
+  # Официальные блоги AI-лабораторий
+  - name: openai
+    url: https://openai.com/news/rss.xml
+  - name: deepmind
+    url: https://deepmind.google/blog/rss.xml
+  - name: anthropic
+    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml
+  - name: mistral
+    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_mistral.xml
+  - name: meta_ai
+    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_meta_ai.xml
+  - name: qwen
+    url: https://qwenlm.github.io/blog/index.xml
+  # Технологические СМИ
+  - name: techcrunch_ai
+    url: https://techcrunch.com/category/artificial-intelligence/feed/
+  - name: venturebeat_ai
+    url: https://venturebeat.com/category/ai/feed
+  - name: arstechnica_ai
+    url: https://arstechnica.com/ai/feed/
+  - name: theverge_ai
     url: https://www.theverge.com/rss/ai-artificial-intelligence/index.xml
+  # Агрегаторы — только «free»-ленты
+  - name: hn_free_ai
+    url: https://hnrss.org/newest?q=AI+free+model&points=3
+  - name: hn_free_credits
+    url: https://hnrss.org/newest?q=%22free+credits%22+AI&points=3
+  - name: reddit_llm_free
+    url: https://www.reddit.com/r/LocalLLaMA/search.rss?q=free&restrict_sr=on&sort=new&t=week

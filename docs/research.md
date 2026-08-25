@@ -134,3 +134,34 @@ saaspricepulse.com, dev.to (2026).
    бесплатно и без регистраций на облачных платформах. Oracle отклонён (нужна регистрация
    с картой). Workflow: `.github/workflows/parser.yml`, состояние — `state/swag.db`
    коммитится обратно в репо.
+
+## 8. Источники новостей о «халяве» (проверено 25.08.2026)
+
+Вывод по объёму: релевантных новостей немного — порядка **3–10 в неделю** из качественных
+источников (анонсы free tier, бесплатные кредиты, временные раздачи, выход free/open-source
+моделей) плюс волны вокруг крупных запусков. Канал не захлебнётся; фильтр важнее объёма.
+
+Проверенные живые RSS (все вернули HTTP 200):
+
+| Источник | URL | Что даёт |
+|---|---|---|
+| OpenAI | `openai.com/news/rss.xml` | анонсы (включая бесплатные доступы) |
+| Google DeepMind | `deepmind.google/blog/rss.xml` | релизы моделей |
+| Anthropic (зеркало) | `raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml` | у Anthropic нет официального RSS |
+| Mistral (зеркало) | `.../feed_mistral.xml` | релизы |
+| Meta AI (зеркало) | `.../feed_meta_ai.xml` | Llama и др. |
+| Qwen | `qwenlm.github.io/blog/index.xml` | open-source модели |
+| TechCrunch AI | `techcrunch.com/category/artificial-intelligence/feed/` | новости индустрии |
+| VentureBeat AI | `venturebeat.com/category/ai/feed` (без слэша, 308→200) | новости + free tier анонсы |
+| Ars Technica AI | `arstechnica.com/ai/feed/` | новости |
+| The Verge AI | `theverge.com/rss/ai-artificial-intelligence/index.xml` | новости |
+| Hacker News | `hnrss.org/newest?q=...` | поиск по «free model» / «free credits» |
+| Reddit r/LocalLLaMA | `reddit.com/r/LocalLLaMA/search.rss?q=free...` | комьюнити, раздачи кредитов |
+
+Отпали: Qwen `feed.xml` (404, рабочий путь — `/blog/index.xml`), официальный RSS Anthropic
+(не существует).
+
+Ключевой вывод по качеству: ключевые слова дают много ложных срабатываний (бенчмарки,
+кванты, «free» внутри длинных заголовков). Для канал-качества нужен LLM-скоринг
+(Gemini Flash free tier, ~1500 req/день, наш объём — десятки) — реализован в `swag/llm.py`,
+включается ключом `GEMINI_API_KEY`.

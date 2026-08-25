@@ -8,8 +8,12 @@ class Settings(BaseSettings):
 
     bot_token: str = ""
     channel_id: str = ""
-    github_token: str = ""
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-flash-latest"
     poll_interval_min: int = 30
+    fresh_hours: int = 48
+    max_posts_per_cycle: int = 15
+    min_llm_score: int = 6
     db_path: Path = Path("data/swag.db")
     timezone: str = "Europe/Moscow"
     dry_run: bool = True
