@@ -1,0 +1,15 @@
+github:
+  topics:
+    - ai
+    - llm
+    - free-tier
+    - open-source
+  days: 7
+  min_stars: 15
+  max_results: 15
+
+rss:
+  - name: hn_ai_deals
+    url: https://hnrss.org/newest?q=AI+free+credits&points=5
+  - name: verge_ai
+    url: https://www.theverge.com/rss/ai-artificial-intelligence/index.xml

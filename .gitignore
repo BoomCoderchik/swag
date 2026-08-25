@@ -1,0 +1,28 @@
+# Секреты
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Node (если Playwright/инструменты)
+node_modules/
+
+# Данные (локальная база; CI-состояние живёт в state/ и коммитится)
+data/
+*.db-journal
+*.sqlite3
+
+# Сгенерированные карточки
+cards/
+
+# IDE / ОС
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
