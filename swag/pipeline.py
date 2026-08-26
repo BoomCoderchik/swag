@@ -11,6 +11,7 @@ from swag.filter import has_free_signal_in_title, is_fresh, is_relevant
 from swag.llm import analyze
 from swag.models import Item
 from swag.publisher import Publisher
+from swag.renderer import render_card
 
 logger = logging.getLogger(__name__)
 
@@ -82,6 +83,11 @@ async def run_cycle(
             if not await _enrich(item, settings, client):
                 continue
             try:
+                try:
+                    card_path = render_card(item)
+                except Exception:
+                    logger.exception("card render failed for %s", item.url)
+                    card_path = None
                 await publisher.publish(
                     title=item.ru_title or item.title,
                     description=item.ru_summary or item.description,
@@ -89,6 +95,7 @@ async def run_cycle(
                     url=item.url,
                     tags=item.tags,
                     link_text=GITHUB_LINK if item.kind == "github" else NEWS_LINK,
+                    card_path=card_path,
                 )
                 if item.ru_summary:
                     item.description = item.ru_summary

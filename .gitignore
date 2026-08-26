@@ -21,8 +21,7 @@ data/
 # Сгенерированные карточки
 cards/
 
-# IDE / ОС
-.idea/
+# IDE / ОС.idea/
 .vscode/
 .DS_Store
 Thumbs.db

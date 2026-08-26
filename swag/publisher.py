@@ -1,5 +1,7 @@
 import html
 
+from aiogram.types import FSInputFile
+
 MAX_CAPTION = 1024
 
 
@@ -53,10 +55,19 @@ class Publisher:
         url: str,
         tags: list[str],
         link_text: str = "Читать",
+        card_path=None,
     ) -> None:
         caption = build_caption(title, description, metrics, url, tags, link_text)
         if self._dry_run:
             print(f"[DRY RUN] {url}\n{caption}\n{'-' * 60}")
+            return
+        if card_path is not None:
+            await self._bot.send_photo(
+                chat_id=self._channel_id,
+                photo=FSInputFile(card_path),
+                caption=caption,
+                parse_mode="HTML",
+            )
             return
         await self._bot.send_message(
             chat_id=self._channel_id, text=caption, parse_mode="HTML"
